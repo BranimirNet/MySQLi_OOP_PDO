@@ -9,12 +9,11 @@ $kategorije = Kategorija::allCategories();
     <p class="uspjeh">
         <?php
         if(isset($_SESSION["poruka"])){
-            echo ($_SESSION["poruka"]);
+            echo $_SESSION["poruka"];
             unset($_SESSION["poruka"]);
         }
         ?>
     </p>
-
     <table border="1" cellpadding="6">
         <tr>
             <th>ID</th>
@@ -27,13 +26,12 @@ $kategorije = Kategorija::allCategories();
             <td><?= $k["naziv"]; ?></td>
             <td>
                 <a href="adminkategorija.php?id=<?= $id ?>" class="action-btn">Uredi</a>
-                <a href="#" class="action-btn delete">Briši</a>
+                <a href="DeleteKategorija.php?id=<?= $id ?>" class="action-btn delete" onclick="return confirm('Da li želite sigurno obrisati kategoriju <?= $k['naziv'] ?> ?');">Briši</a>
             </td>
         </tr>
         <?php endforeach; ?>
     </table>
-    <a href="adminkategorija.php?id=<?= $id ?>" class="action-btn">Uredi</a>
-    <a href="DeleteKategorija.php?id=<?= $id ?>" class="action-btn delete" onclick="return confirm('Da li želite sigurno obrisati kategoriju <?= $k['naziv'] ?> ?');">Briši</a>
+    <p><a href="adminkategorija.php" class="nova">Dodaj novu kategoriju</a></p>
 </div>
 <?php
 require_once "../footer.php";

@@ -1,10 +1,11 @@
 <?php
 require_once __DIR__.'..\..\DB\DB.php';
-
+require_once "Redirect.php";
 class Kategorija{
 
-    private static function validateNaziv(string $naziv): void{
-        $naziv=trim($naziv);
+
+    private static function validateNaziv(string $naziv){
+        $naziv = trim($naziv);
 
         if(strlen($naziv)<2){
             $msg="Naziv kategorije mora imati minimalno 2 znaka";
@@ -12,7 +13,6 @@ class Kategorija{
             exit;
         }
     }
-
     public static function allCategories(): array{
         $db = DB::getInstance()->conn;
         $sql = "SELECT * FROM kategorije";
@@ -21,7 +21,7 @@ class Kategorija{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public static function insert($naziv): bool{
+    public static function insert($naziv){
         self::validateNaziv($naziv);
         $db = DB::getInstance()->conn;
 
@@ -45,30 +45,31 @@ class Kategorija{
         $result = $stmt->get_result();
         return $result->fetch_assoc();      
     }
-    
-    public static function update($id,$naziv): bool{
-        $db=DB::getInstance()->conn;
 
-        $stmt=$db->prepare("UPDATE kategorije set naziv = ? where id = ?");
+    public static function update($id,$naziv){
+        $db = DB::getInstance()->conn;
+
+        $stmt = $db->prepare("UPDATE kategorije set naziv = ? where id = ?");
         $stmt->bind_param("si",$naziv,$id);
 
         return $stmt->execute();
     }
 
-    public static function delete($id): bool{
-          $db=DB::getInstance()->conn;
-         try{
-          $stmt=$db->prepare("DELETE FROM kategorije WHERE id =?");
-          $stmt->bind_param("i",$id);
-          $_SESSION["poruka"]="Kategorija uspjesno izbrisana!";
-          return $stmt->execute();
-    }
-    catch(mysqli_sql_exception $e){
-        //die("Greska u brisanju: ".$e->getMessage());
-        Redirect::redirectToErrorPage($e->getMessage());
-    }
+    public static function delete($id){
+        $db = DB::getInstance()->conn;
+        try{
+            $stmt = $db->prepare("DELETE FROM kategorije WHERE id = ?");
+            $stmt->bind_param("i",$id);
+            $_SESSION["poruka"]="Kategorija uspješno izbrisana!";
+            return $stmt->execute();    
+        }
+        catch(mysqli_sql_exception $e){
+            //die("Greška u brisanju: ".$e->getMessage());
+            Redirect::redirectToErrorPage($e->getMessage());
 
-}
+        }
+
+    }
 }
 
 ?>

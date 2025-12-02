@@ -2,7 +2,7 @@
 
 class Redirect{
 
-    public static function redirectToErrorPage($msg=null):void{
+    public static function redirectToErrorPage($msg = null){
         if($msg){
             $_SESSION["err"]=$msg;
         }
@@ -10,7 +10,5 @@ class Redirect{
         exit;
     }
 }
-
-
 
 ?>

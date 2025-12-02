@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 require_once "../Models/Kategorija.php";
 
 if(!isset($_GET['id'])){
@@ -8,7 +7,7 @@ if(!isset($_GET['id'])){
 }
 
 Kategorija::delete($_GET['id']);
-header("Location: kategorije.php");
 
+header("Location: kategorije.php");
 
 ?>
