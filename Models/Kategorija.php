@@ -34,6 +34,15 @@ class Kategorija{
         $result = $stmt->get_result();
         return $result->fetch_assoc();      
     }
+    
+    public static function update($id,$naziv): bool{
+        $db=DB::getInstance()->conn;
+
+        $stmt=$db->prepare("UPDATE kategorije set naziv = ? where id = ?");
+        $stmt->bind_param("si",$naziv,$id);
+
+        return $stmt->execute();
+    }
 }
 
 ?>

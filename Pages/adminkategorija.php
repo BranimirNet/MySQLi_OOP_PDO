@@ -1,6 +1,6 @@
 <?php
-require "header.php";
-require_once "Models/Kategorija.php";
+require "../header.php";
+require_once "../Models/Kategorija.php";
 ?>
 
 <div id="content">
@@ -21,6 +21,7 @@ else
 ?>
 
 <form action="" method="POST">
+    <input type="hidden" name="id" value="<?= $idkat  ?>">
     <label>Naziv:</label>
     <input type="text" name="naziv" value="<?= $kategorija["naziv"] ?>">
     <button type="submit">Spremi</button>
@@ -28,11 +29,20 @@ else
 
 <?php
 if($_POST){
+    if($_POST["id"]==0){
     Kategorija::insert($_POST["naziv"]);
     echo "<p style='color:green;'>Proizvod spremljen</p>";
+}
+else
+    {
+    //za update
+    Kategorija::update($_POST["id"],$_POST["naziv"]);
+    echo "<p style='color:green;'>Kategorija azurirana</p>";
+
+}
     header("refresh: 1; url=kategorije.php");
 }
 ?>
 </div>
 
-<?php require "footer.php"; ?>
+<?php require "../footer.php"; ?>

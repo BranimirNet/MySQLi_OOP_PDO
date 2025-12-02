@@ -24,6 +24,14 @@ class DB{
     public static function getInstance(): DB{
         return self::$instance ??= new DB();
     }
+
+
+public function __destruct()
+{
+    if($this->conn){
+        $this->conn->close();
+    }
+}
 }
 
 ?>
