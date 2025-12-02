@@ -3,6 +3,16 @@ require_once __DIR__.'..\..\DB\DB.php';
 
 class Kategorija{
 
+    private static function validateNaziv(string $naziv): void{
+        $naziv=trim($naziv);
+
+        if(strlen($naziv)<2){
+            $msg="Naziv kategorije mora imati minimalno 2 znaka";
+            Redirect::redirectToErrorPage($msg);
+            exit;
+        }
+    }
+
     public static function allCategories(): array{
         $db = DB::getInstance()->conn;
         $sql = "SELECT * FROM kategorije";
@@ -11,7 +21,8 @@ class Kategorija{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public static function insert($naziv){
+    public static function insert($naziv): bool{
+        self::validateNaziv($naziv);
         $db = DB::getInstance()->conn;
 
         try{
@@ -43,6 +54,21 @@ class Kategorija{
 
         return $stmt->execute();
     }
+
+    public static function delete($id): bool{
+          $db=DB::getInstance()->conn;
+         try{
+          $stmt=$db->prepare("DELETE FROM kategorije WHERE id =?");
+          $stmt->bind_param("i",$id);
+          $_SESSION["poruka"]="Kategorija uspjesno izbrisana!";
+          return $stmt->execute();
+    }
+    catch(mysqli_sql_exception $e){
+        //die("Greska u brisanju: ".$e->getMessage());
+        Redirect::redirectToErrorPage($e->getMessage());
+    }
+
+}
 }
 
 ?>
