@@ -15,11 +15,11 @@ class Produkt{
         Redirect::redirectToErrorPage($msg);
     }
 
-    public static function allProducts(): array{
+    public static function allProducts($sort = "asc"): array{
         $db = DB::getInstance()->conn;
         $sql = "SELECT p.*, k.naziv as kategorija
                 from produkti p inner join kategorije k
-                on p.kategorijaid = k.id";
+                on p.kategorijaid = k.id order by p.id $sort";
 
         $result = $db->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);

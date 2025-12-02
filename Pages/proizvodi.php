@@ -2,7 +2,21 @@
 require_once "../header.php";
 require_once "../Models/Produkt.php";
 
+
+if(isset($_GET["sort"])){
+
+    if($_GET["sort"]=="desc"){
+        $proizvodi = Produkt::allProducts("desc");
+    }
+    else{
+        $proizvodi = Produkt::allProducts("asc");
+    }
+}
+else
+{
 $proizvodi = Produkt::allProducts();
+}
+
 ?>
 <div id="content">
     <h2>Proizvodi</h2>
@@ -14,6 +28,7 @@ $proizvodi = Produkt::allProducts();
         }
         ?>
     </p>
+    <p><a href="proizvodi.php?sort=asc">Sort ASC</a> | <a href="proizvodi.php?sort=desc">Sort DESC</a></p>
     <table border="1" cellpadding="6">
         <tr>
             <th>ID</th>
@@ -37,6 +52,7 @@ $proizvodi = Produkt::allProducts();
         </tr>
         <?php endforeach; ?>
     </table>
+    <p>Ukupno proizvoda: <?= count($proizvodi) ?></p>
     <p><a href="adminproizvod.php" class="nova">Dodaj novi proizvod</a></p>
 </div>
 <?php
