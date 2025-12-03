@@ -6,13 +6,17 @@ class Produkt{
 
     private static function validateProdukt(int $cijena, float $kolicina){
 
+        $errors = false;
         if($kolicina < 10){
             $msg="Količina je manja od 10";
+            $errors=true;
         }
         if($cijena < 5){
             $msg.="<br>Cijena je manja od 5";
+            $errors=true;
         }
-        Redirect::redirectToErrorPage($msg);
+
+        $errors == true ? Redirect::redirectToErrorPage($msg) : "";
     }
 
     public static function allProducts($sort = "asc"): array{
