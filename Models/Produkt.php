@@ -83,6 +83,27 @@ public static function update($id, $naziv, $kolicina, $cijena, $kategorijaid): b
     }
 }
 
+public static function insertForTransaction(
+    string $naziv,
+    int $kolicina,
+    float $cijena,
+    int $kategorijaid,
+    PDO $db
+): bool {
+
+    $sql = "INSERT INTO produkti (naziv, kolicina, cijena, kategorijaid)
+            VALUES (:naziv, :kolicina, :cijena, :kategorijaid)";
+
+    $stmt = $db->prepare($sql);
+
+    return $stmt->execute([
+        ':naziv'        => $naziv,
+        ':kolicina'     => $kolicina,
+        ':cijena'       => $cijena,
+        ':kategorijaid' => $kategorijaid
+    ]);
+}
+
     
 
 }
